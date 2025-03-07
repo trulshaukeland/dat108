@@ -21,18 +21,31 @@ package no.hvl.dat108.oppg4betinget;
 
 public class BetingetUtskrift {
 	
-	private static void betingetUtskrift(String s, ???) {
-		???
+	private static void betingetUtskrift(String s, Betingelse betingelse) {
+		if(betingelse.test(s)) {
+			System.out.println(s);
+		}
 	}
 	
 	public static void main(String[] args) {
-		???
+		
+		String s1 = "Xhabition is the best scenter in Bergen";
+		String s2 = "Hi";
+
+		Betingelse starterMedX = s -> s.startsWith("X");
+
+		Betingelse lengreEn3Tegn = s -> s.length() < 3;
+
+		betingetUtskrift(s1, lengreEn3Tegn);
+		betingetUtskrift(s2, lengreEn3Tegn);
+		betingetUtskrift(s1, starterMedX);
+		betingetUtskrift(s2, starterMedX);
 	}
 }
 
 @FunctionalInterface
-interface ??? {
-	???
+interface  Betingelse{
+	boolean test(String s);
 }
 
 
