@@ -21,11 +21,15 @@ public class Main {
 		// en Sirkel er en Flate.
 		Flate f1 = new Sirkel(2.0);
 		System.out.println(f1.areal());
+
+		Kvadrat kvadrat = new Kvadrat(3);
+		System.out.println("Kvadrat: Side 3: Areal = " + kvadrat.areal());
 		
 		// Vi kan lagre alle typer flater i samme tabell 
 		Flate[] flater = {
 				s1,
 				f1,
+				kvadrat,
 				new Rektangel(2.0, 3.5)
 		};
 		
