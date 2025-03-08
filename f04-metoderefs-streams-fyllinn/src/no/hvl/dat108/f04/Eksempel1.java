@@ -13,23 +13,34 @@ import java.util.function.Function;
  * av Stringer. Hvordan omformingen fra Person til String skal gjøres
  * skal oppgis som en parameter til metoden hjelpemetoden tilListeAvString().
  * 
- * Fyll inn der det står ???
  */
 public class Eksempel1 {
 	
-	public static List<String> tilListeAvString(List<Person> liste, ???) {
+	// Method to convert List<Person> to List<String>
+	public static List<String> tilListeAvString(List<Person> liste, Function<Person, String> omformer) {
 		
 		List<String> resultat = new ArrayList<>();
 		
-		??? 
+		// Convert each Person to String using the function
+		for (Person p : liste) {
+			resultat.add(omformer.apply(p)); // Apply the given function
+		}
 				
 		return resultat;
 	}
 
 	public static void main(String[] args) {
 		
-		//Vi kan prøve å lage en liste av fornavnene til personene i listen
-		List<String> fornavnene = tilListeAvString(people, ???);
+		// Convert list of People to a list of first names
+		List<String> fornavnene = tilListeAvString(people, Person::firstName);
 		System.out.println(fornavnene);		
+
+		// Convert list of People to a list of last names
+		List<String> etternavnene = tilListeAvString(people, Person::lastName);
+		System.out.println(etternavnene);	
+
+		// Convert list of People to a custom formatted string
+		List<String> fullBeskrivelse = tilListeAvString(people, p -> p.firstName() + " " + p.lastName() + " is " + p.age() + " years old.");
+		System.out.println(fullBeskrivelse);
 	}
 }
