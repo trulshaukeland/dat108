@@ -5,12 +5,13 @@ import static no.hvl.dat108.f04.People.people;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
+
 /*
  * Eksempel2
  * 
-*  I dette eksemplet ser vi hvordan vi kan erstatte 
-*  lambda-uttrykk med metodereferanser.
-*/
+ * I dette eksemplet ser vi hvordan vi kan erstatte 
+ * lambda-uttrykk med metodereferanser.
+ */
 public class Eksempel2 {
 	
 	private static String initialer(Person p) {
@@ -21,43 +22,48 @@ public class Eksempel2 {
 		return (a + b) / 2;
 	}
 	
-	// Meningsløs metode som kun er ment for å øve på funksjoner og metodereferanser
-	private static void gjorNoeMedPerson(Person person, ???) {
-		???.accept(person);
+	// Metode som utfører en handling på en Person ved hjelp av en Consumer-funksjon
+	private static void gjorNoeMedPerson(Person person, Consumer<Person> consumer) {
+		consumer.accept(person);
 	}
 	
-	// Meningsløs metode som kun er ment for å øve på funksjoner og metodereferanser
-	private static String personTilString(Person person, ???) {
-		return ???.apply(person);
+	// Metode som omformer en Person til en String ved hjelp av en Function-funksjon
+	private static String personTilString(Person person, Function<Person, String> func) {
+		return func.apply(person);
 	}
 	
-	// Meningsløs metode som kun er ment for å øve på funksjoner og metodereferanser
-	private static double brukeBiFunc(Double a, Double b, ???) {
-		return ???.apply(a, b);
+	// Metode som utfører en binær operasjon på to Double-verdier ved hjelp av en BinaryOperator
+	private static double brukeBiFunc(Double a, Double b, BinaryOperator<Double> operator) {
+		return operator.apply(a, b);
 	}
 	
 	public static void main(String[] args) {
 		
 		Person arne = new Person("Arne", "And", 1990);
-		
-		gjorNoeMedPerson(arne, p -> System.out.println(p));
-		
-		String fornavn = personTilString(arne, p -> p.firstName());
+
+		// Bruker metodereferanse i stedet for lambda: p -> System.out.println(p)
+		gjorNoeMedPerson(arne, System.out::println);
+
+		// Bruker metodereferanse i stedet for lambda: p -> p.firstName()
+		String fornavn = personTilString(arne, Person::firstName);
 		System.out.println(fornavn);
-		
-		String initialer = personTilString(arne, p -> initialer(p));
+
+		// Bruker metodereferanse i stedet for lambda: p -> initialer(p)
+		String initialer = personTilString(arne, Eksempel2::initialer);
 		System.out.println(initialer);
-		
-		double maks = brukeBiFunc(4.0, 5.0, (a,b) -> Math.max(a, b));
+
+		// Bruker metodereferanse i stedet for lambda: (a, b) -> Math.max(a, b)
+		double maks = brukeBiFunc(4.0, 5.0, Math::max);
 		System.out.println(maks);
-		
-		double snitt = brukeBiFunc(2.0, 5.0, (a,b) -> snitt(a, b));
+
+		// Bruker metodereferanse i stedet for lambda: (a, b) -> snitt(a, b)
+		double snitt = brukeBiFunc(2.0, 5.0, Eksempel2::snitt);
 		System.out.println(snitt);
-		
-		people.sort((p1,p2) -> p1.compareTo(p2));
-		
-		people.forEach(p -> System.out.println(p));
-		
+
+		// Sorterer listen av personer basert på fornavn
+		people.sort((p1, p2) -> p1.firstName().compareTo(p2.firstName()));
+
+		// Bruker metodereferanse i stedet for lambda: p -> System.out.println(p)
+		people.forEach(System.out::println);
 	}
 }
-
