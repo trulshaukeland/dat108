@@ -19,20 +19,25 @@ public class Eksempel3 {
 
 	public static void main(String[] args) {
 		
-		//1 - Sortering på etternavn ved å gi inn en Comparator som 2. parameter
-		Collections.sort(people, (a,b) -> a.lastName().compareTo(b.lastName()));
+		// 1 - Sortering på etternavn ved å gi inn en Comparator som 2. parameter
+		Collections.sort(people, (a, b) -> a.lastName().compareTo(b.lastName()));
 		
-		//2 - Ofte ser vi kode som dette
+		// 2 - Ofte ser vi kode som dette
 		Collections.sort(people, comparing(p -> p.lastName()));
 
-		//3 - Eller (enda bedre) ved å bruke metodereferanse
+		// 3 - Eller (enda bedre) ved å bruke metodereferanse
 		Collections.sort(people, comparing(Person::lastName));
 
-		//4 - Hvordan virker egentlig Comparator.comparing()?
+		// 4 - Hvordan virker egentlig Comparator.comparing()?
 		//		Kan vi forstå litt mer ved å lage en slik metode selv?
 		
-//		Collections.sort(people, vedAaSammenligne(Person::age));
+		// Bruker vår egen metode for å sortere på fornavn
 		Collections.sort(people, vedAaSammenligne(Person::firstName));
+		
+		// Bruker vår egen metode for å sortere på alder
+		Collections.sort(people, vedAaSammenligne(Person::age));
+
+		// Skriver ut listen
 		people.forEach(System.out::println);
 	}
 	
@@ -40,27 +45,7 @@ public class Eksempel3 {
 	 * Vår egen utgave av Comparator.comparing(...).
 	 * Sjekk gjerne ut API-doc til Comparator.comparing(), og se om det ligner.
 	 */
-	static ??? vedAaSammenligne(???) {
-		return ???;
+	static <T extends Comparable<T>> Comparator<Person> vedAaSammenligne(Function<Person, T> keyExtractor) {
+		return (p1, p2) -> keyExtractor.apply(p1).compareTo(keyExtractor.apply(p2));
 	}
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
