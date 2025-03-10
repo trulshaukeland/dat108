@@ -19,16 +19,15 @@ public class Eks3Optional1 {
 		 * Hvis det finnes et slikt tall, skriv det ut.
 		 * Hvis ikke, skriv ut at ingen tall ble funnet.
 		 */
-		
+		 
 		// ### Først uten bruk av Optional, altså "gamlemåten".
-		
 		Integer minste = null;
 		for (int tall : enListeAvTall) {
 			if (tall > 10 && (minste == null || tall < minste)) {
 				minste = tall;
 			}
 		}
-		System.out.print("Gamlemåten:   ");
+		System.out.print("Gamlemåten Liste av tall: ");
 		if (minste != null) {
 			skrivUtResultat(enListeAvTall, minste);
 		} else {
@@ -67,6 +66,7 @@ public class Eks3Optional1 {
 		
 //		System.out.println("\noptMinste.orElseThrow(...)");
 //		System.out.println(optMinste.orElseThrow(() -> new RuntimeException()));
+
 	}
 
 	// Hjelpemetode for å skrive ut resultatet
