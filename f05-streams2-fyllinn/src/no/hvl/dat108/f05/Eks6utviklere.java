@@ -3,8 +3,8 @@ package no.hvl.dat108.f05;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Eks6utviklere {
@@ -20,16 +20,45 @@ public class Eks6utviklere {
 				new Utvikler("Lise", Set.of("Java", "C")));
 
 		System.out.println(
-				"\nEn oversikt over hvilke utviklere som kan Java:");
+				"\n\u001B[1mEn oversikt over hvilke utviklere som kan Java:\u001B[0m \n");
+		List<Utvikler> utviklereSomKanJava = utviklere.stream().filter(u -> u.spraak().contains("Java")).collect(Collectors.toList());
+
+		utviklereSomKanJava.stream()
+		.map(u -> u.navn()).forEach(System.out::println);
+		System.out.println(
+				"\n\u001B[1mNavnet på en utvikler som kan C#, eller \"INGEN\" om ingen kan C#:\u001B[0m \n");
+
+		utviklere.stream()
+		.filter(u -> u.spraak().contains("C#"))
+		.findAny()
+		.ifPresentOrElse(
+			u -> System.out.println("Utvikler som kan C#: " + u.navn()), 
+			() -> System.out.println("INGEN")
+		);
 		
 		System.out.println(
-				"\nNavnet på en utvikler som kan C#, eller \"INGEN\" om ingen kan C#:");
+				"\n\u001B[1mEn sortert liste over alle programmeringsspråkene utviklerne kan:\u001B[0m \n");
+		
+		utviklere.stream()
+		.flatMap(u -> u.spraak().stream())
+		.distinct()
+		.sorted()
+		.forEach(System.out::println);
 
 		System.out.println(
-				"\nEn sortert liste over alle programmeringsspråkene utviklerne kan:");
-		
-		System.out.println(
-				"\nHvilket språk flest utviklere kan (finner ett av dem):");
+				"\n\u001B[1mHvilket språk flest utviklere kan (finner ett av dem): \u001B[0m \n");
+
+		//Tall for antalall utviklere pr språk
+		Map<String, Long> språkteller = utviklere.stream().flatMap(u -> u.spraak().stream())
+		.collect(Collectors.groupingBy(s -> s, Collectors.counting()));
+
+		//Finn høyeste antall utviklere som kan et språk
+		Optional<Map.Entry<String, Long>> mestBrukt = språkteller.entrySet()
+		.stream()
+		.max(Map.Entry.comparingByValue());
+
+		System.out.println(mestBrukt.map(Map.Entry::getKey).orElse("Ingen språk funnet"));
+
 		//Vrien - Prøv selv ...
 		
 		//Hint1: Bruk flatMap, collect, groupingBy, identity og counting
@@ -41,7 +70,21 @@ public class Eks6utviklere {
 		//		 inneholder både key og value.
 		
 		System.out.println(
-				"\nHvilke(t) språk flest utviklere kan hvis det er flere:");
+				"\n\u001B[1mHvilke(t) språk flest utviklere kan hvis det er flere: \u001B[0m \n");
+
+		// Finn høyeste antall utviklere som kan et språk
+		long maxCount = språkteller.values().stream()
+    		.max(Long::compare)
+    		.orElse((long) 0);
+
+		// Hent ALLE språk med maks antall utviklere
+		List<String> mestPopulæreSpråk = språkteller.entrySet().stream()
+			.filter(entry -> entry.getValue() == maxCount)
+			.map(Map.Entry::getKey)
+			.toList();
+
+		System.out.println(mestPopulæreSpråk.isEmpty() ? "Ingen språk funnet" : mestPopulæreSpråk);
+		
 		//Vrien - Prøv selv ...
 		
 		//Hint:  Bruk Map-et fra forrige oppgave, og filtrer ut de språkene
