@@ -20,7 +20,7 @@ public class Eks5flatmap {
           
         List<Integer> flatetListe  = listeAvLister.stream()
         		.flatMap(sublist -> sublist.stream()) // Stream<List<Integer>> ---> Stream<Integer>
-//        		.sorted()
+       		        .sorted()
         		.toList();
         
         System.out.println("\nlisteAvLister etter 'flattening' (og sortering) : ");
